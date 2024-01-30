@@ -1,0 +1,138 @@
+<html>
+  <head>
+    <title>Personal Library</title>
+    <meta name="description" content="Personal Books Library">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/public/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="main-doc">
+    <div id="userstories">
+      <div class="title">Personal Library: Documentation</div>
+      <ul>
+        <li><b>POST</b><br/>
+          <p class="desc">to add a book make a request with a body containing <i>title</i></p>
+          <code>/api/books</code>  
+          returns a json object, with a unique id, title and comments. e.g
+          <code>{
+              "_id": "5bb9e5495fb87310e1057656",
+              "title": "Game of thrones",
+              "comments": []
+          }</code></li>
+          
+        <li><b>GET</b> 
+          <p class="desc">To retrieve an aray of all books.</p>
+
+          <code>/api/books</code> 
+          Returns.
+          <code>[
+              {
+                  "_id": "5bb9e5495fb87310e1057656",
+                  "title": "Game of thrones",
+                  "commentcount": 1
+              },
+              {
+                  "_id": "5bb9e6dd5fb87310e1057657",
+                  "title": "Test-Book",
+                  "commentcount": 2
+              }
+          ]</code>
+          </li>
+
+        <li><b>GET</b> 
+          <p class="desc">To retrieve a single book.</p> 
+        <code>/api/books/{_id}</code>
+        returns
+        <code>{
+            "_id": "5bb9e5495fb87310e1057656",
+            "title": "Game of thrones",
+            "comments": [
+                "winter is coming. :D"
+            ]
+        }</code>
+        </li>
+
+        <li><b>POST</b> 
+          <p class="desc">To add a comment to a specific book using <i>_id</i> and body containing <i>comment</i>.</p>
+          <code>/api/books/{_id}</code>
+          Returns a book object with a newly added commnet.
+          <code>{
+              "_id": "5bb9e6dd5fb87310e1057657",
+              "title": "Test-Book",
+              "comments": [
+                  "test comment 1",
+                  "test comment 2"
+              ]
+          }</code>
+        </li>
+        <li><b>DELETE</b>
+          <p class="desc">To delete a book from the collection.</p>
+           <code>/api/books/{_id}</code>
+           Returns if sucessfull,
+           <code>'delete successful'</code>
+          </li>
+
+        <li><b>DELETE</b>
+          <p class="desc">To delete all books in the database.</p> 
+        <code>/api/books</code>
+        Returns if sucessfull,
+        <code>'complete delete successful'</code>
+      </li>
+      </ul>
+      <hr>
+    </div>
+
+    <div id ='sampleposting'>
+      <div class="title">Test API Responses:</div>
+
+      <form action="/api/books" method="post" class="border">
+        <label>Test post to /api/books</label><br>
+        Book Title:<input type="text" name="title" value=""><br>
+        <button type="submit" value="Submit" class="button_submit">Submit</button>
+      </form>
+
+      <form action="" method="post" id="commentTest" class="border">
+        <label>Test post to /api/books/{bookid}</label><br/>
+        <input type="text" name="id" value="" id="idinputtest" placeholder="BookId to comment on"><br>
+        <input type="text" name="comment" value="" placeholder="Comment"><br>
+        <button type="submit" value="Submit" class="button_submit">Submit</button>
+      </form>
+    </div>
+    <hr>
+    
+    <div id='sampleui'>
+      <div class="title">Sample Front-End:</div>
+     
+      <form id="newBookForm" class="border">
+        <input type="text" id="bookTitleToAdd" name="title" placeholder="New Book Title" style="width: 295px">
+        <button type="submit" value="Submit" id="newBook" class="button_submit">Submit New Book!</button>
+      </form>
+      <div id='display'></div>          
+      <div id='bookDetail' class='border'>
+        <p id='detailTitle'>Select a book to see it's details and comments</p>
+        <ul id='detailComments'></ul>
+      </div>
+    </div>
+    </div>
+    <div class="the-guy">by <a href="https://github.com/farhankk360" target="_blank">Farhan Ullah</a></div>
+  </div>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="/public/client.js"></script>           
+    <script>
+      /*
+      *  For #sampleposting to update form action url to test inputs book id
+      */
+      $(function() {
+       $('#commentTest').submit(function(){
+         var id = $('#idinputtest').val();
+         $(this).attr('action', "/api/books/" + id);
+       });
+      });
+   </script>
+  </body>
+</html>
